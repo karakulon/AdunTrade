@@ -1,25 +1,29 @@
 ﻿using System.Text.Json.Nodes;
-using Newtonsoft.Json;
-using Formatting = Newtonsoft.Json.Formatting;
-
 namespace AT.WebParsers.CsMarketParser
 {
-    public class CsMarket
+    public interface ICsMarket
     {
-        public async Task<string> GetItems()
+        public Dictionary<string, List<Dictionary<string, dynamic>>> Json { get; set; }
+
+        public Task<Dictionary<string, List<Dictionary<string, dynamic>>>> GetSuperBistroItems();
+    }
+    public class CsMarket : ICsMarket
+    {
+        public Dictionary<string, List<Dictionary<string, dynamic>>> Json { get; set; }
+        public async Task<Dictionary<string, List<Dictionary<string, dynamic>>>> GetSuperBistroItems()
         {
             var item = new JsonObject();
-            var Csmarket_Items = new Dictionary<string, List<Dictionary<string, string>>>
+            var Csmarket_Items = new Dictionary<string, List<Dictionary<string, dynamic>>>
             {
 
                 ["items"] =
-                new List<Dictionary<string, string>>{
-                new Dictionary<string, string>
+                new List<Dictionary<string, dynamic>>{
+                new Dictionary<string, dynamic>
                 {
                     ["MarketName"] = "csmarket",
                     ["Name"] = null,
                     ["Price"] = null,
-                    ["Buy_order"] = null
+                    ["BuyOrder"] = null
                 }
                 }
             };
@@ -31,21 +35,19 @@ namespace AT.WebParsers.CsMarketParser
             foreach (KeyValuePair<string, Items> itm in csmarket.items)
             {
                 Csmarket_Items["items"][count]["Name"] = $"{itm.Value.market_hash_name}";
-                Csmarket_Items["items"][count]["Price"] = $"{itm.Value.price}";
-                Csmarket_Items["items"][count]["Buy_order"] = $"{itm.Value.buy_order}";
+                Csmarket_Items["items"][count]["Price"] = itm.Value.price;
+                Csmarket_Items["items"][count]["BuyOrder"] = itm.Value.buy_order;
                 count++;
-                if (count >= 50)
+                if (count >= 10)
                 {
                     break;
                 };
-                Csmarket_Items["items"].Add(new Dictionary<string, string>());
+                Csmarket_Items["items"].Add(new Dictionary<string, dynamic>());
             }
 
-            var json = JsonConvert.SerializeObject(Csmarket_Items, Formatting.None, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            return json;
+            Json = Csmarket_Items;
+            return Json;
+            
         }
     }
 }
