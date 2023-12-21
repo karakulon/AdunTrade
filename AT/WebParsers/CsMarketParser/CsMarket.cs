@@ -13,6 +13,7 @@
         
         public static async Task GetSuperBistroItems()
         {
+            Console.WriteLine("ok");
             var Csmarket_Items = new Dictionary<string, List<Dictionary<string, string>>>
             {
 
@@ -29,7 +30,7 @@
             };
 
             HttpClient client = new HttpClient();
-            using HttpResponseMessage response = await client.GetAsync("https://market.csgo.com/api/v2/prices/class_instance/USD.json");
+            using HttpResponseMessage response = await client.GetAsync("https://market.csgo.com/api/v2/prices/class_instance/RUB.json");
             var csmarket = await response.Content.ReadFromJsonAsync<Market>();
             int count = 0;
             foreach (KeyValuePair<string, Items> itm in csmarket.items)
@@ -45,8 +46,9 @@
                 Csmarket_Items["items"].Add(new Dictionary<string, string> { ["MarketName"] = "CsMarket" });
             }
             Json = Csmarket_Items;
-            await Task.Delay(20000);
-            await CsMarket.GetSuperBistroItems();
+            Console.WriteLine("ok");
+            await Task.Delay(100000);
+            CsMarket.GetSuperBistroItems();
         }
     }
 }

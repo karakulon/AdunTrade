@@ -25,23 +25,12 @@ namespace AT.Controllers
         [ResponseType(typeof(JsonItemsDTO))]
         public async Task<IActionResult> GetAsync([FromQuery(Name = "marketname")] string marketname)
         {
-            if(marketname == "CsMarket" && CsMarket.Json["items"][0]["Name"] != null)
+            if(marketname == "CsMarket" && CsMarket.Json != null)
             {
                 return Ok(CsMarket.Json);
             }
-            else if(marketname == "CsMarket")
+            if (marketname == "LisSkins" && LisSkins.Json != null)
             {
-                await CsMarket.GetSuperBistroItems();
-
-                return Ok();
-            }
-            if (marketname == "LisSkins" && LisSkins.Json["items"][0]["Name"] != null)
-            {
-                return Ok(LisSkins.Json);
-            }
-            else if (LisSkins.Json["items"][0]["Name"] == null)
-            {
-                await LisSkins.GetSuperBistroItems();
                 return Ok(LisSkins.Json);
             }
             return Ok();

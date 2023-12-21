@@ -17,6 +17,9 @@ internal class Program
 
         var app = builder.Build();
 
+        LisSkins.GetSuperBistroItems();
+        CsMarket.GetSuperBistroItems();
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

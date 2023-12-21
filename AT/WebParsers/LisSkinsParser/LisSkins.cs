@@ -14,6 +14,7 @@ namespace AT.WebParsers.LisSkinsParser
         public static Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
         public static async Task GetSuperBistroItems()
         {
+            Console.WriteLine("plomp");
             var LisSkins_Items = new Dictionary<string, List<Dictionary<string, string>>>
             {
                 ["items"] =
@@ -41,7 +42,7 @@ namespace AT.WebParsers.LisSkinsParser
             int count_names_inner = 0;
             int count_names_exterior = 0;
             int count_prices = 0;
-            while (page <= Int32.Parse(last_page_parse.ToArray()[9]))
+            while (page <= Int32.Parse(last_page_parse.ToArray()[8]))
             {
                 var config = Configuration.Default.WithDefaultLoader();
                 var address = $"https://lis-skins.ru/market/csgo/?page={page}";
@@ -81,8 +82,9 @@ namespace AT.WebParsers.LisSkinsParser
                 page++;
             }
             Json = LisSkins_Items;
-            //await Task.Delay(100000);
-            //await LisSkins.GetSuperBistroItems();
+            Console.WriteLine("plomp");
+            await Task.Delay(45000);
+            LisSkins.GetSuperBistroItems();
         }
     }
 }
