@@ -11,7 +11,7 @@
     {
         public static Dictionary<string, List<Dictionary<string, string>>> Json {  get; set; }
         
-        public static async Task GetSuperBistroItems()
+        public static async Task GetJson()
         {
             Console.WriteLine("ok");
             var Csmarket_Items = new Dictionary<string, List<Dictionary<string, string>>>
@@ -47,8 +47,8 @@
             }
             Json = Csmarket_Items;
             Console.WriteLine("ok");
-            await Task.Delay(100000);
-            CsMarket.GetSuperBistroItems();
+            await Task.Delay(50000);
+            CsMarket.GetJson();
         }
     }
 }

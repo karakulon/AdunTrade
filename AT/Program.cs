@@ -4,6 +4,9 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+        // LisSkins.GetJson();
+        CsMarket.GetJson();
+
         var builder = WebApplication.CreateBuilder(args);
 
         // builder.Services.AddSingleton<ICsMarket, CsMarket>();
@@ -16,9 +19,6 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
-
-        LisSkins.GetSuperBistroItems();
-        CsMarket.GetSuperBistroItems();
 
         if (app.Environment.IsDevelopment())
         {

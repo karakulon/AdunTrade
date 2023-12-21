@@ -11,7 +11,7 @@ namespace AT.Controllers
 
     [ApiController]
     [Route("JsonController")]
-    public class JsonController : ControllerBase
+    public class JsonController : Controller
     {
         //public ICsMarket MyCsMarket;
         //public JsonController(ICsMarket MyCsMarket, ILisSkins MyLisSkins) 
