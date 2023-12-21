@@ -1,24 +1,24 @@
-﻿using System.Text.Json.Nodes;
-namespace AT.WebParsers.CsMarketParser
-{
-    public interface ICsMarket
-    {
-        public Dictionary<string, List<Dictionary<string, dynamic>>> Json { get; set; }
+﻿namespace AT.WebParsers.CsMarketParser
 
-        public Task<Dictionary<string, List<Dictionary<string, dynamic>>>> GetSuperBistroItems();
-    }
-    public class CsMarket : ICsMarket
+{
+    //public interface ICsMarket
+    //{
+    //    public Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
+
+    //    public Task GetSuperBistroItems();
+    //}
+    public static class CsMarket
     {
-        public Dictionary<string, List<Dictionary<string, dynamic>>> Json { get; set; }
-        public async Task<Dictionary<string, List<Dictionary<string, dynamic>>>> GetSuperBistroItems()
+        public static Dictionary<string, List<Dictionary<string, string>>> Json {  get; set; }
+        
+        public static async Task GetSuperBistroItems()
         {
-            var item = new JsonObject();
-            var Csmarket_Items = new Dictionary<string, List<Dictionary<string, dynamic>>>
+            var Csmarket_Items = new Dictionary<string, List<Dictionary<string, string>>>
             {
 
                 ["items"] =
-                new List<Dictionary<string, dynamic>>{
-                new Dictionary<string, dynamic>
+                new List<Dictionary<string, string>>{
+                new Dictionary<string, string>
                 {
                     ["MarketName"] = "csmarket",
                     ["Name"] = null,
@@ -35,19 +35,18 @@ namespace AT.WebParsers.CsMarketParser
             foreach (KeyValuePair<string, Items> itm in csmarket.items)
             {
                 Csmarket_Items["items"][count]["Name"] = $"{itm.Value.market_hash_name}";
-                Csmarket_Items["items"][count]["Price"] = itm.Value.price;
-                Csmarket_Items["items"][count]["BuyOrder"] = itm.Value.buy_order;
+                Csmarket_Items["items"][count]["Price"] = $"{itm.Value.price}";
+                Csmarket_Items["items"][count]["BuyOrder"] = $"{itm.Value.buy_order}";
                 count++;
                 if (count >= 10)
                 {
                     break;
                 };
-                Csmarket_Items["items"].Add(new Dictionary<string, dynamic>());
+                Csmarket_Items["items"].Add(new Dictionary<string, string> { ["MarketName"] = "CsMarket" });
             }
-
             Json = Csmarket_Items;
-            return Json;
-            
+            await Task.Delay(20000);
+            await CsMarket.GetSuperBistroItems();
         }
     }
 }

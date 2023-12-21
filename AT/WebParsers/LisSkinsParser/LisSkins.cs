@@ -1,30 +1,30 @@
-﻿using Newtonsoft.Json;
-using AngleSharp;
+﻿using AngleSharp;
+using AT.WebParsers.CsMarketParser;
 
 namespace AT.WebParsers.LisSkinsParser
 {
-    public interface ILisSkins
-    {
-        public Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
+    //public interface ILisSkins
+    //{
+    //    public Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
 
-        public Task GetSuperBistroItems();
-    }
-    public class LisSkins : ILisSkins
+    //    public Task GetSuperBistroItems();
+    //}
+    public static class LisSkins
     {
-        public Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
-        public async Task GetSuperBistroItems()
+        public static Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
+        public static async Task GetSuperBistroItems()
         {
             var LisSkins_Items = new Dictionary<string, List<Dictionary<string, string>>>
             {
-
                 ["items"] =
-                    new List<Dictionary<string, string>>{
-            new Dictionary<string, string>
-            {
-                ["MarketName"] = "LisSkins",
-                ["Name"] = null,
-                ["Price"] = null,
-            }
+                    new List<Dictionary<string, string>>
+                    {
+                        new Dictionary<string, string>
+                        {
+                            ["MarketName"] = "LisSkins",
+                            ["Name"] = null,
+                            ["Price"] = null,
+                        }
                     }
             };
             // ;)
@@ -64,7 +64,7 @@ namespace AT.WebParsers.LisSkinsParser
                 foreach (var title in titles_names_inner)
                 {
                     LisSkins_Items["items"][count_names_inner]["Name"] = title;
-                    LisSkins_Items["items"].Add(new Dictionary<string, string>());
+                    LisSkins_Items["items"].Add(new Dictionary<string, string>{ ["MarketName"] = "LisSkins" } );
                     count_names_inner++;
                 }
                 foreach (var title in titles_names_exterior)
@@ -80,12 +80,9 @@ namespace AT.WebParsers.LisSkinsParser
                 }
                 page++;
             }
-            // conside ur money
-            var json = JsonConvert.SerializeObject(LisSkins_Items, Formatting.None, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            this.Json = LisSkins_Items;
-    }
+            Json = LisSkins_Items;
+            //await Task.Delay(100000);
+            //await LisSkins.GetSuperBistroItems();
+        }
     }
 }

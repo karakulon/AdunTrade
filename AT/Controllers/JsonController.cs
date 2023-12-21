@@ -4,6 +4,7 @@ using AT.DTOS;
 using System.Web.Http.Description;
 using AT.WebParsers.LisSkinsParser;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics.Eventing.Reader;
 
 namespace AT.Controllers
 {
@@ -12,31 +13,36 @@ namespace AT.Controllers
     [Route("JsonController")]
     public class JsonController : ControllerBase
     {
-        public ICsMarket MyCsMarket;
-        public JsonController(ICsMarket MyCsMarket, ILisSkins MyLisSkins) 
-        {
-            this.MyCsMarket = MyCsMarket;
-            this.MyLisSkins = MyLisSkins;
-        }
-        public ILisSkins MyLisSkins;
+        //public ICsMarket MyCsMarket;
+        //public JsonController(ICsMarket MyCsMarket, ILisSkins MyLisSkins) 
+        //{
+        //    this.MyCsMarket = MyCsMarket;
+        //    this.MyLisSkins = MyLisSkins;
+        //}
+        //public ILisSkins MyLisSkins;
         
         [HttpGet]
         [ResponseType(typeof(JsonItemsDTO))]
         public async Task<IActionResult> GetAsync([FromQuery(Name = "marketname")] string marketname)
         {
-            if(marketname == "CsMarket")
+            if(marketname == "CsMarket" && CsMarket.Json["items"][0]["Name"] != null)
             {
-                var market = this.MyCsMarket;
-                await market.GetSuperBistroItems();
-                var json = market.Json;
-                return Ok(json);
+                return Ok(CsMarket.Json);
             }
-            if (marketname == "LisSkins")
+            else if(marketname == "CsMarket")
             {
-                var market = this.MyLisSkins;
-                await market.GetSuperBistroItems();
-                var json = market.Json;
-                return Ok(json);
+                await CsMarket.GetSuperBistroItems();
+
+                return Ok();
+            }
+            if (marketname == "LisSkins" && LisSkins.Json["items"][0]["Name"] != null)
+            {
+                return Ok(LisSkins.Json);
+            }
+            else if (LisSkins.Json["items"][0]["Name"] == null)
+            {
+                await LisSkins.GetSuperBistroItems();
+                return Ok(LisSkins.Json);
             }
             return Ok();
         }
