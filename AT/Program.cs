@@ -4,7 +4,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        // LisSkins.GetJson();
+        LisSkins.GetJson();
         CsMarket.GetJson();
 
         var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +17,16 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                              });
+        });
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -31,7 +40,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
+        app.UseCors(MyAllowSpecificOrigins);
         app.Run();
     }
 }
