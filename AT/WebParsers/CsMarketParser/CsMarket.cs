@@ -7,6 +7,8 @@
         
         public static async Task GetJson()
         {
+            try
+            {
                 Console.WriteLine("ok");
                 var Csmarket_Items = new Dictionary<string, List<Dictionary<string, string>>>
                 {
@@ -30,8 +32,17 @@
                 }
                 Json = Csmarket_Items;
                 Console.WriteLine("ok");
+            }
+            catch(Exception e)
+            {
+                Console.Write(e.ToString());
+            }
+            finally
+            {
                 await Task.Delay(20000);
                 CsMarket.GetJson();
+            }
+             
             
         }
     }

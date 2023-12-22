@@ -8,6 +8,8 @@ namespace AT.WebParsers.LisSkinsParser
         public static Dictionary<string, List<Dictionary<string, string>>> Json { get; set; }
         public static async Task GetJson()
         {
+            try
+            {
                 Console.WriteLine("plomp");
                 var LisSkins_Items = new Dictionary<string, List<Dictionary<string, string>>>
                 {
@@ -48,8 +50,9 @@ namespace AT.WebParsers.LisSkinsParser
                     // appending to dict all itemos infos epta
                     foreach (var title in titles_names_inner)
                     {
-                        LisSkins_Items["items"].Add(new Dictionary<string, string> { 
-                            ["MarketName"] = "LisSkins" 
+                        LisSkins_Items["items"].Add(new Dictionary<string, string>
+                        {
+                            ["MarketName"] = "LisSkins"
                         });
                         LisSkins_Items["items"][count_names_inner]["Name"] = title;
                         count_names_inner++;
@@ -69,8 +72,17 @@ namespace AT.WebParsers.LisSkinsParser
                 }
                 Json = LisSkins_Items;
                 Console.WriteLine("plomp");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
                 await Task.Delay(20000);
                 LisSkins.GetJson();
+            }
+            
         }
     }
 }
