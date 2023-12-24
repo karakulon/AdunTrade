@@ -79,7 +79,7 @@ namespace AT.WebParsers.LisSkinsParser
             }
             finally
             {
-                await Task.Delay(20000);
+                await Task.Delay(2000000);
                 LisSkins.GetJson();
             }
             
